@@ -1,6 +1,8 @@
 # Company Manager
 
-A C console program that registers full-time and part-time employees, looks them up by employee number, lists them by department or by pay, and processes changes in status. Employee data is saved to `CompanyDB.txt`. A list that holds any struct given its element size and a dictionary with string keys are written by hand in C, and structs carry function pointers so they can be used like objects. A school assignment.
+[한국어](README.ko.md)
+
+A C console program that registers full-time and part-time employees, looks them up by employee number, lists them by department or by pay, and processes changes in status. Employee data is saved to `CompanyDB.txt`. It uses a list that holds any struct given its element size and a dictionary with string keys, both written by hand in C, and its structs carry function pointers so they can be used like objects. It is a school assignment.
 
 <p>
   <img src="docs/screenshots/screenshot-1.png" width="480" alt="Main menu">
@@ -37,7 +39,7 @@ The vacation day count set at registration is 10 minus the position number for f
 
 ## How it works
 
-**The list works by element size.** `List` holds a `void *` buffer and an element size, and adding an element copies it in whole with `memcpy`. The initial capacity is 2, and when it fills up a buffer twice the size is allocated and the contents moved over. The employee list is created with `NewList(sizeof(Employee))`, and the key-value pair list inside the dictionary with `NewList(sizeof(KeyValuePair))`.
+**The list works by element size.** `List` holds a `void *` buffer and an element size, and adding an element copies it in whole with `memcpy`. The initial capacity is 2, and when the buffer fills up, the list allocates a new one twice the size and moves the contents over. The employee list is created with `NewList(sizeof(Employee))`, and the key-value pair list inside the dictionary with `NewList(sizeof(KeyValuePair))`.
 
 ```c
 memcpy((byte *)(list->Item) + (list->Count * list->ItemSize), value, list->ItemSize);
@@ -59,7 +61,7 @@ if (callback != NULL)
 }
 ```
 
-**Employee data is a tagged union.** The department, position and salary step of full-time employees and the hours worked and hourly pay of part-time employees overlap in one union, and the first letter of the employee number decides which applies. The memo and vacation day count are also a union, told apart by a `TypeTag` value (`HAS_STRING`, `HAS_INT`). Writing and reading the file also follows the memo tag and the first letter of the employee number to change the layout of each line.
+**Employee data is a tagged union.** The department, position and salary step of full-time employees and the hours worked and hourly pay of part-time employees overlap in one union, and the first letter of the employee number decides which applies. The memo and vacation day count are also a union, told apart by a `TypeTag` value (`HAS_STRING`, `HAS_INT`). When the file is written or read, the memo tag and the first letter of the employee number also decide the layout of each line.
 
 
 ## Files
